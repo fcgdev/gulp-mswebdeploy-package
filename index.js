@@ -12,7 +12,7 @@ function generateManifestXml(options){
     var system_info_xml = builder.create(
       {'msdeploy.iisApp': {
         'iisApp' : {
-          '@path' : options.source
+          '@path' : options.internalPath
         }
 
         }
@@ -62,7 +62,7 @@ function createPackage(options, callback) {
         });
 
         archive.pipe(output);
-        archive.directory(options.source, 'data');
+        archive.directory(options.source, options.internalPath);
         archive.append(generateParametersXml(options), { name:'parameters.xml' });
         archive.append( generateManifestXml(options), { name:'manifest.xml' });
         archive.finalize();
@@ -84,6 +84,9 @@ module.exports = function (options) {
 		options.source = "dist/";
 	}
     
+    if (!options.internalPath ) {
+		options.internalPath = "data";
+	}
     if (!options.package) {
 		options.package = "webdeploy.zip";
 	}
