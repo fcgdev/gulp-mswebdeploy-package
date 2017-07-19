@@ -62,7 +62,7 @@ function createPackage(options, callback) {
         });
 
         archive.pipe(output);
-        archive.directory(options.source);
+        archive.directory(options.source, '/');
         archive.append(generateParametersXml(options), { name:'parameters.xml' });
         archive.append( generateManifestXml(options), { name:'manifest.xml' });
         archive.finalize();
